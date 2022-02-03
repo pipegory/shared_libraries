@@ -43,8 +43,10 @@ def stageSonar(){
             //sh "echo '${env.GIT_BRANCH}'_'${env.BUILD_NUMBER}'"
             //sh "echo 'RAMA: ['${env.GIT_BRANCH}'] EJECUCIÓN NR:[' ${env.BUILD_NUMBER}']'"
             def projectKey=env.GIT_BRANCH'_'env.BUILD_NUMBER
-            def projectName="'RAMA:['${env.GIT_BRANCH}'] EJECUCIÓN NR:['${env.BUILD_NUMBER}']'"
-            sh "mvn clean verify sonar:sonar -Dsonar.projectKey='${projectKey}' -Dsonar.projectName='${projectName}'"
+            def projectName="'RAMA:['${env.GIT_BRANCH}']_EJECUCIÓN_NR:['${env.BUILD_NUMBER}']'"
+            sh "echo ${projectKey}"
+            sh "echo ${projectName}"
+            sh "mvn clean verify sonar:sonar -Dsonar.projectKey='LaboratorioM3-TEST' -Dsonar.projectName='${projectName}'"
             }
         // }
     }
