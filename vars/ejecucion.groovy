@@ -5,9 +5,9 @@ def call(){
           NEXUS_USER         = credentials('NEXUS-USER')
           NEXUS_PASSWORD     = credentials('NEXUS-PASS')
       }
-      parameters {
-            choice choices: ['maven', 'gradle'], description: 'Prueba', name: 'compileTool'
-      }
+    //   parameters {
+    //         choice choices: ['maven'], description: 'Prueba', name: 'compileTool'
+    //   }
       stages {
           stage("Pipeline"){
               steps {
