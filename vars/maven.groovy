@@ -40,7 +40,7 @@ def stageSonar(){
             withSonarQubeEnv('sonarqube') {
             sh "echo 'Calling sonar Service in another docker container!'"
             // Run Maven on a Unix agent to execute Sonar.
-            sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=laboratorioM3-sonar -Dsonar.projectName=LaboratorioPrueba'
+            sh 'mvn clean verify sonar:sonar -Dsonar.projectKey='${env.GIT_URL} '_'${env.GIT_BRANCH}'_' ${env.BUILD_NUMBER}' -Dsonar.projectName=REPO:[' ${env.GIT_URL} '] RAMA: ['${env.GIT_BRANCH}'] EJECUCIÓN NR:[' ${env.BUILD_NUMBER}']'
             }
         // }
     }
