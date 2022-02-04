@@ -7,7 +7,7 @@ def allStages(){
     stageCleanTest()
     stagePackage()
     stageSonar()
-    //stageUploadNexus()
+    stageUploadNexus()
 }
 
 def stageCleanBuild(){
@@ -47,29 +47,28 @@ def stageSonar(){
             sh "mvn clean verify sonar:sonar -Dsonar.projectKey='${projectKey}' -Dsonar.projectName='${projectName}'"
             }
         }
-    //}
-        post {
-            //record the test results and archive the jar file.
-            success {
-                //archiveArtifacts artifacts:'build/*.jar'
-                nexusPublisher nexusInstanceId: 'nexus',
-                nexusRepositoryId: 'devops-usach-nexus',
-                packages: [
-                    [$class: 'MavenPackage',
-                    mavenAssetList: [
-                        [classifier: '',
-                        extension: '.jar',
-                        filePath: 'build/DevOpsUsach2020-0.0.1.jar']
-                        ],
-                        mavenCoordinate: [
-                            artifactId: 'DevOpsUsach2020',
-                            groupId: 'cl.devopsusach2020',
-                            packaging: 'jar',
-                            version: '0.0.1-feature-nexus']
-                    ]
-                ]
-            }
-        }
+        // post{
+        //     //record the test results and archive the jar file.
+        //     success {
+        //         //archiveArtifacts artifacts:'build/*.jar'
+        //         nexusPublisher nexusInstanceId: 'nexus',
+        //         nexusRepositoryId: 'devops-usach-nexus',
+        //         packages: [
+        //             [$class: 'MavenPackage',
+        //             mavenAssetList: [
+        //                 [classifier: '',
+        //                 extension: '.jar',
+        //                 filePath: 'build/DevOpsUsach2020-0.0.1.jar']
+        //                 ],
+        //                 mavenCoordinate: [
+        //                     artifactId: 'DevOpsUsach2020',
+        //                     groupId: 'cl.devopsusach2020',
+        //                     packaging: 'jar',
+        //                     version: '0.0.1-feature-nexus']
+        //             ]
+        //         ]
+        //     }
+        // }
     }
 }
 
