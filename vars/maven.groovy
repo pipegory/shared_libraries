@@ -98,13 +98,13 @@ def stageUploadNexus(){
 def stageDownloadNexus(){
     stage("Paso 6: Descargar Nexus"){
 
-        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/laboratorioM3/LaboratorioM3-ID/0.0.1/LaboratorioM3-ID-0.0.1.jar" -O'
     }
 }
 
 def stageRunJar(){
     stage("Paso 7: Levantar Artefacto Jar"){
-        sh 'nohup java -jar LaboratorioM3-ID-0.0.1.jar & >/dev/null'
+        sh 'nohup java -jar build/LaboratorioM3-ID-0.0.1.jar & >/dev/null'
     }
 }
 
