@@ -36,7 +36,7 @@ def stagePackage(){
 
 def stageSonar(){
     stage("Paso 4: Análisis SonarQube"){
-        steps {
+        //steps {
             withSonarQubeEnv('sonarqube') {
             sh "echo 'Calling sonar Service in another docker container!'"
             // Run Maven on a Unix agent to execute Sonar.
@@ -46,7 +46,7 @@ def stageSonar(){
             sh "echo ${projectName}"
             sh "mvn clean verify sonar:sonar -Dsonar.projectKey='${projectKey}' -Dsonar.projectName='${projectName}'"
             }
-        }
+        //}
         // post{
         //     //record the test results and archive the jar file.
         //     success {
@@ -92,6 +92,27 @@ def stageUploadNexus(){
                 ]
             ]
         ]
+    }
+}
+
+def stageDownloadNexus(){
+    stage("Paso 6: Descargar Nexus"){
+
+        sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+    }
+}
+
+def stageRunJar(){
+    stage("Paso 7: Levantar Artefacto Jar"){
+        sh 'nohup java -jar LaboratorioM3-ID-0.0.1.jar & >/dev/null'
+    }
+}
+
+def stageRunSpringCurl(){
+    env.TAREA="Paso 8: Curl Springboot Gradle sleep 20"
+    stage("$env.TAREA"){
+        sh "nohup bash mvnw spring-boot:run &"
+        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
