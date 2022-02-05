@@ -8,6 +8,9 @@ def allStages(){
     stagePackage()
     stageSonar()
     stageUploadNexus()
+    stageDownloadNexus()
+    stageRunJar()
+    stageRunSpringCurl()
 }
 
 def stageCleanBuild(){
