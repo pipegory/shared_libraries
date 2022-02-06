@@ -21,7 +21,7 @@ def stageDownloadNexus(){
 def stageRunJar(){
     env.TAREA = "Paso 7: Levantar Artefacto Jar"
     stage("$env.TAREA"){
-        sh 'nohup java -jar build/LaboratorioM3-ID-0.0.1.jar & >/dev/null'
+        sh 'nohup java -jar LaboratorioM3-ID-0.0.1.jar & >/dev/null'
     }
 }
 
