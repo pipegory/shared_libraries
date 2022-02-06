@@ -5,7 +5,7 @@ def call(){
 def allStages(){
     stageDownloadNexus()
     stageRunJar()
-    stageRunTest()
+    //stageRunTest()
     gitMergeMaster()
 }
 
