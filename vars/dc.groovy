@@ -40,7 +40,7 @@ def gitMergeMaster(){
         gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
     ]) {
         sh '''
-            git remote set-url origin https://github.com/DiplomadoDevOps2021/ms-iclab.git
+            git remote set-url origin https://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@github.com/DiplomadoDevOps2021/ms-iclab.git
             git fetch -p
             git checkout release-v1-0-0; git pull
             git checkout main
