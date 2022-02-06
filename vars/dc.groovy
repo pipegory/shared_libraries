@@ -50,6 +50,8 @@ def gitMergeMaster(){
             gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
         ]) {
             sh '''
+                git config --global user.email "jenkins@laboratorio.cl"
+                git config --global user.name "Jenkins Pipeline"
                 git fetch -p
                 git checkout release-v1-0-0; git pull
                 git checkout main
