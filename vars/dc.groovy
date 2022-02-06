@@ -41,6 +41,8 @@ def gitMergeMaster(){
     ]) {
         sh '''
             git fetch -p
+            git checkout feature-estadomundial
+            git checkout develop
             git switch release-v1-0-0; git pull
             git checkout main
             git merge release-v1-0-0;
