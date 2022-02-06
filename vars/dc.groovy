@@ -56,8 +56,9 @@ def gitMergeMaster(){
                 git config --global user.email "ordenes.ignacio@gmail.com"
                 git config --global user.name "Jenkins Pipeline"
                 git fetch -p
-                git checkout release-v1-0-0; git pull
+                git checkout release-v1-0-0; git pull origin release-v1-0-0
                 git checkout main
+                git pull origin main
                 git merge release-v1-0-0;
                 git push origin main
             '''
