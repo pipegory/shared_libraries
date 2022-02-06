@@ -83,7 +83,7 @@ def gitTagMaster(){
                 git config --global user.name "Jenkins Pipeline"
                 git fetch -p
                 git checkout main
-                git tag -a release-v1-0-0;
+                git tag -a release-v1-0-0 -m "release-v1-0-0";
                 git push origin --tags
             '''
         }
