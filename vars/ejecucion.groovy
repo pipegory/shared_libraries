@@ -11,6 +11,8 @@ def call(){
               steps {
                   script{
                     //def ejecucion = load 'maven.groovy'
+                    sh "echo '1: '${env.GIT_BRANCH}"
+                    sh "echo '2: '${GIT_BRANCH}"
                     String[] str
                     str        = GIT_BRANCH.split('/')
                     rama = str[1]
