@@ -42,7 +42,7 @@ def gitMergeMaster(){
         sh '''
             git remote set-url origin https://github.com/DiplomadoDevOps2021/ms-iclab.git
             git fetch -p
-            git checkout release-v1-0-1; git pull
+            git checkout release-v1-0-0; git pull
             git checkout main
             git merge release-v1-0-0;
             git push origin main
