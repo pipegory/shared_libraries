@@ -112,8 +112,8 @@ def stageCreateRelease(){
             sh '''
                 git fetch -p
                 git checkout develop
-                git checkout -b release-v1-0-1
-                git push origin release-v1-0-1
+                git checkout -b release-v1-0-0
+                git push origin release-v1-0-0
             '''
         }
     }
