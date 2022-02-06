@@ -10,17 +10,20 @@ def call(){
           stage("Pipeline"){
               steps {
                   script{
-                    //def ejecucion = load 'maven.groovy'
-                    //String[] str
-                    //str        = GIT_BRANCH.split('/')
-                    rama = GIT_BRANCH //str[1]
-                    if (rama.contains('feature') ) {
+                    rama = GIT_BRANCH
+                    if (rama.contains('feature') || rama.contains('develop')) {
                         sh "echo 'rama feature IC'"
                         ic.call()
                     }
                     else {
-                        sh "echo 'rama 2' ${str[1]}  ' DC'"
-                        dc.call()
+                        if (rama.contains('release') ) {
+                            sh "echo 'rama 2' ${str[1]}  ' DC'"
+                            dc.call()
+                        }
+                        else{
+                            slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Rama no permitida: ${GIT_BRANCH}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
+                            error "Rama ${GIT_BRANCH} no permitida/soportada"
+                        }
                     }
                   }
               }
