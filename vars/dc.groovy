@@ -21,19 +21,19 @@ def stageDownloadNexus(){
 def stageRunJar(){
     env.TAREA = "Paso 7: Levantar Artefacto Jar"
     stage("$env.TAREA"){
-        sh 'nohup java -jar LaboratorioM3-ID-0.0.1.jar & >/dev/null'
+        sh 'nohup java -jar LaboratorioM3-ID-0.0.1.jar --server.port=7788 & >/dev/null'
     }
 }
 
 def stageRunTest(){
     env.TAREA="Paso 8: Ejecución Test URLs"
     stage("$env.TAREA"){
-        sh "bash mvnw spring-boot:run"
+        sh "nohup bash mvnw spring-boot:run &"
         sh "sleep 60"
         sh "ls"
-        validaStatus('http://localhost:8081/rest/mscovid/test?msg=testing')
-        validaStatus('http://localhost:8081/rest/mscovid/estadoMundial')
-        validaStatus('http://localhost:8081/rest/mscovid/estadoPais?pais=chile')
+        validaStatus('http://localhost:7788/rest/mscovid/test?msg=testing')
+        validaStatus('http://localhost:7788/rest/mscovid/estadoMundial')
+        validaStatus('http://localhost:7788/rest/mscovid/estadoPais?pais=chile')
     }
 }
 
