@@ -35,6 +35,7 @@ def stageRunTest(){
 }
 
 def gitMergeMaster(){
+    echo "GIT BRANCH ${GIT_BRANCH}"
     withCredentials([
         gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
     ]) {
