@@ -28,7 +28,7 @@ def stageRunJar(){
 def stageRunTest(){
     env.TAREA="Paso 8: Ejecución Test URLs"
     stage("$env.TAREA"){
-        sh "nohup bash mvnw spring-boot:run &"
+        sh "bash mvnw spring-boot:run &"
         sh "sleep 60"
         sh "ls"
         validaStatus('http://localhost:8081/rest/mscovid/test?msg=testing')
