@@ -9,14 +9,15 @@ def allStages(){
 }
 
 def stageDownloadNexus(){
-    stage("Paso 6: Descargar Nexus"){
-
+    env.TAREA = "Paso 6: Descargar Nexus"
+    stage("$env.TAREA"){
         sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/laboratorioM3/LaboratorioM3-ID/0.0.1/LaboratorioM3-ID-0.0.1.jar" -O'
     }
 }
 
 def stageRunJar(){
-    stage("Paso 7: Levantar Artefacto Jar"){
+    env.TAREA = "Paso 7: Levantar Artefacto Jar"
+    stage("$env.TAREA"){
         sh 'nohup java -jar build/LaboratorioM3-ID-0.0.1.jar & >/dev/null'
     }
 }

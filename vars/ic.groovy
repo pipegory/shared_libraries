@@ -12,7 +12,8 @@ def allStages(){
 }
 
 def stageCleanBuild(){
-    stage("Paso 1: Build && Test"){
+    env.TAREA = "Paso 1: Build && Test";
+    stage("$env.TAREA"){
         sh "echo 'Build && Test!'"
         sh "mvn clean compile -e"
         // code
@@ -20,7 +21,8 @@ def stageCleanBuild(){
 }
 
 def stageCleanTest(){
-    stage("Paso 2: Testear"){
+    env.TAREA = "Paso 2: Testear"
+    stage("$env.TAREA"){
         sh "echo 'Test Code!'"
         // Run Maven on a Unix agent.
         sh "mvn clean test -e"
@@ -28,7 +30,8 @@ def stageCleanTest(){
 }
 
 def stagePackage(){
-    stage("Paso 3: Build .Jar"){
+    env.TAREA = "Paso 3: Build .Jar"
+    stage("$env.TAREA"){
         sh "echo 'Build .Jar!'"
         // Run Maven on a Unix agent.
         sh "mvn clean package -e"
@@ -38,7 +41,8 @@ def stagePackage(){
 def stageSonar(){
     def projectKey="${GIT_REPO_NAME}'-'${GIT_BRANCH}'-'${env.BUILD_NUMBER}"
     def projectName="${GIT_REPO_NAME}'-'${GIT_BRANCH}'-'${env.BUILD_NUMBER}"
-    stage("Paso 4: Análisis SonarQube"){
+    env.TAREA = "Paso 4: Análisis SonarQube"
+    stage("$env.TAREA"){
         withSonarQubeEnv('sonarqube') {
         sh "echo 'Calling sonar Service in another docker container!'"
         // Run Maven on a Unix agent to execute Sonar.
@@ -48,21 +52,23 @@ def stageSonar(){
 }
 
 def stageQualityGate(){
-  stage("Paso 4 1/2: Revisar Sonar - Quality Gate"){
-    timeout(time: 1, unit: 'MINUTES') {
+    env.TAREA = "Paso 4 1/2: Revisar Sonar - Quality Gate"
+    stage("$env.TAREA"){
+        timeout(time: 1, unit: 'MINUTES') {
             def qg = waitForQualityGate()
             if (qg.status != 'OK') {
                 println(qg)
-                slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Revisión Sonar fallida ${qg.status}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-jenkins-slack'
+                slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Revisión Sonar fallida ${qg.status}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
             }
         }
        sh "echo 'Quality Gate Passed'"
-  }
+    }
 }
 
 def stageUploadNexus(){
-    stage("Paso 5: Subir Nexus"){
+    env.TAREA = "Paso 5: Subir Nexus"
+    stage("$env.TAREA"){
         nexusPublisher nexusInstanceId: 'nexus',
         nexusRepositoryId: 'devops-usach-nexus',
         packages: [
