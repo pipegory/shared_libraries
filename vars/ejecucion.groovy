@@ -17,7 +17,7 @@ def call(){
                     }
                     else {
                         if (rama.contains('release') ) {
-                            sh "echo 'rama 2' ${str[1]}  ' DC'"
+                            sh "echo 'rama Release'"
                             dc.call()
                         }
                         else{
