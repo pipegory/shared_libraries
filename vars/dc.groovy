@@ -39,14 +39,10 @@ def gitMergeMaster(){
     withCredentials([
         gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
     ]) {
-        deleteDir()
-        dir("release-v1-0-0") {
-            git url: "https://github.com/DiplomadoDevOps2021/ms-iclab.git",
-                branch: 'release-v1-0-0'
-        }
         sh '''
+            git remote set-url origin https://github.com/DiplomadoDevOps2021/ms-iclab.git
             git fetch -p
-            git checkout -b release-v1-0-1; git pull
+            git checkout release-v1-0-1; git pull
             git checkout main
             git merge release-v1-0-0;
             git push origin main
