@@ -29,7 +29,7 @@ def stageRunTest(){
     env.TAREA="Paso 8: Ejecución Test URLs"
     stage("$env.TAREA"){
         sh "nohup bash mvnw spring-boot:run &"
-        sh "sleep 60"
+        sh "sleep 20"
         sh "ls"
         validaStatus('http://localhost:7788/rest/mscovid/test?msg=testing')
         validaStatus('http://localhost:7788/rest/mscovid/estadoMundial')
@@ -109,10 +109,10 @@ def gitMergeDevelop(){
         ]) {
             sh '''
                 git fetch -p
-                git checkout ''release-v1-0-0''; git pull
-                git checkout ''develop''
+                git checkout release-v1-0-0; git pull origin release-v1-0-0
+                git checkout develop; git pull origin develop
                 git merge release-v1-0-0;
-                git push origin ''develop''
+                git push origin develop
             '''
         }
     }
