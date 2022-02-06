@@ -23,7 +23,7 @@ def stageRunJar(){
 }
 
 def stageRunTest(){
-    env.TAREA="Paso 8: Curl Springboot Gradle sleep 20"
+    env.TAREA="Paso 8: Ejecución Test URLs"
     stage("$env.TAREA"){
         sh "nohup bash mvnw spring-boot:run &"
         sh "sleep 20"
