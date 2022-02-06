@@ -10,17 +10,17 @@ def call(){
           stage("Pipeline"){
               steps {
                   script{
-                    def ejecucion = load 'maven.groovy'
+                    //def ejecucion = load 'maven.groovy'
                     String[] str
                     str        = GIT_BRANCH.split('/')
                     rama = str[1]
                     if (rama.contains('feature') ) {
                         sh "echo 'rama feature IC'"
-                        ejecucion.call()
+                        ic.call()
                     }
                     else {
                         sh "echo 'rama 2' ${str[1]}  ' DC'"
-                        ejecucion.call()
+                        dc.call()
                     }
                   }
               }
