@@ -28,8 +28,8 @@ def stageRunJar(){
 def stageRunTest(){
     env.TAREA="Paso 8: Ejecución Test URLs"
     stage("$env.TAREA"){
-        sh "nohup mvnw spring-boot:run &"
-        sh "sleep 20"
+        sh "nohup bash mvnw spring-boot:run &"
+        sh "sleep 60"
         validaStatus('http://localhost:8081/rest/mscovid/test?msg=testing')
         validaStatus('http://localhost:8081/rest/mscovid/estadoMundial')
         validaStatus('http://localhost:8081/rest/mscovid/estadoPais?pais=chile')
