@@ -96,7 +96,27 @@ def stageUploadNexus(){
 }
 
 def stageCreateRelease(){
-    echo "stageCreateRelease"
+    stage('Checkout') {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'LocalBranch'], [$class: 'WipeWorkspace']],
+            userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/DiplomadoDevOps2021/ms-iclab.git']],
+            doGenerateSubmoduleConfigurations: false
+        ])
+    }
+    stage('Git Merge Develop'){
+        withCredentials([
+            gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
+        ]) {
+            sh '''
+                git fetch -p
+                git checkout develop
+                git checkout -b release-v1-0-1
+                git push origin release-v1-0-1
+            '''
+        }
+    }
 }
 
 return this;

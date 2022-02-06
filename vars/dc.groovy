@@ -5,8 +5,9 @@ def call(){
 def allStages(){
     stageDownloadNexus()
     stageRunJar()
-    //stageRunTest()
+    stageRunTest()
     gitMergeMaster()
+    gitMergeDevelop()
     gitTagMaster()
 }
 
@@ -91,16 +92,27 @@ def gitTagMaster(){
 }
 
 def gitMergeDevelop(){
-    withCredentials([
-        gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
-    ]) {
-        sh '''
-            git fetch -p
-            git checkout ''release-v1-0-0''; git pull
-            git checkout ''develop''
-            git merge release-v1-0-0;
-            git push origin ''develop''
-        '''
+    stage('Checkout') {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'LocalBranch'], [$class: 'WipeWorkspace']],
+            userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/DiplomadoDevOps2021/ms-iclab.git']],
+            doGenerateSubmoduleConfigurations: false
+        ])
+    }
+    stage('Git Merge Develop'){
+        withCredentials([
+            gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
+        ]) {
+            sh '''
+                git fetch -p
+                git checkout ''release-v1-0-0''; git pull
+                git checkout ''develop''
+                git merge release-v1-0-0;
+                git push origin ''develop''
+            '''
+        }
     }
 }
 
