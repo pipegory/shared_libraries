@@ -6,9 +6,9 @@ def allStages(){
     stageDownloadNexus()
     stageRunJar()
     stageRunTest()
-    gitMergeMaster()
-    gitMergeDevelop()
-    gitTagMaster()
+    // gitMergeMaster()
+    // gitMergeDevelop()
+    // gitTagMaster()
 }
 
 def stageDownloadNexus(){

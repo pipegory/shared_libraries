@@ -12,7 +12,7 @@ def allStages(){
 
     rama = GIT_BRANCH
     if(rama.contains('develop')){
-        stageCreateRelease()
+        //stageCreateRelease()
     }
 }
 
@@ -101,7 +101,7 @@ def stageCreateRelease(){
             $class: 'GitSCM',
             branches: scm.branches,
             extensions: scm.extensions + [[$class: 'LocalBranch'], [$class: 'WipeWorkspace']],
-            userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/DiplomadoDevOps2021/ms-iclab.git']],
+            userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/pipegory/ejemplo_gradle.git']],
             doGenerateSubmoduleConfigurations: false
         ])
     }
