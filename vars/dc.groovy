@@ -45,7 +45,6 @@ def gitMergeMaster(){
                 branch: 'release-v1-0-0'
         }
         sh '''
-            git status
             git fetch -p
             git checkout -b release-v1-0-1; git pull
             git checkout main
