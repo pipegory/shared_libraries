@@ -9,6 +9,11 @@ def allStages(){
     stageSonar()
     stageQualityGate()
     stageUploadNexus()
+
+    rama = GIT_BRANCH
+    if(rama.contains('develop')){
+        stageCreateRelease()
+    }
 }
 
 def stageCleanBuild(){
@@ -88,6 +93,10 @@ def stageUploadNexus(){
             ]
         ]
     }
+}
+
+def stageCreateRelease(){
+    echo "stageCreateRelease"
 }
 
 return this;
