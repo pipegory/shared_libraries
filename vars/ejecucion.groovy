@@ -4,17 +4,25 @@ def call(){
       environment {
           NEXUS_USER         = credentials('NEXUS-USER')
           NEXUS_PASSWORD     = credentials('NEXUS-PASS')
+          GIT_REPO_NAME      = GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1')
       }
-    //   parameters {
-    //         choice choices: ['maven'], description: 'Prueba', name: 'compileTool'
-    //   }
       stages {
           stage("Pipeline"){
               steps {
                   script{
-                      sh "env"
-                      env.TAREA = ""
-                        maven.call();
+                        def ejecucionIC = load 'ic.groovy'
+                        def ejecucionDC = load 'dc.groovy'
+                        String[] str
+                        str        = GIT_BRANCH.split('/')
+                        rama = str[1]
+                        if (rama.contains('feature') ) {
+                            sh "echo 'rama feature IC'"
+                            ejecucionIC.call()
+                        }
+                        else {
+                            sh "echo 'rama 2' ${str[1]}  ' DC'"
+                            ejecucionDC.call()
+                        }
                   }
               }
               post{

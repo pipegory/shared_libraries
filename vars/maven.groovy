@@ -115,7 +115,8 @@ def stageRunSpringCurl(){
     env.TAREA="Paso 8: Curl Springboot Gradle sleep 20"
     stage("$env.TAREA"){
         sh "nohup bash mvnw spring-boot:run &"
-        sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+        sh "sleep 20"
+        sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
 
