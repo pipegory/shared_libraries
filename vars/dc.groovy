@@ -30,6 +30,7 @@ def stageRunTest(){
     stage("$env.TAREA"){
         sh "nohup bash mvnw spring-boot:run &"
         sh "sleep 60"
+        sh "tail -f nohup.out"
         validaStatus('http://localhost:8081/rest/mscovid/test?msg=testing')
         validaStatus('http://localhost:8081/rest/mscovid/estadoMundial')
         validaStatus('http://localhost:8081/rest/mscovid/estadoPais?pais=chile')
