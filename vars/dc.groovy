@@ -27,9 +27,18 @@ def stageRunTest(){
     stage("$env.TAREA"){
         sh "nohup bash mvnw spring-boot:run &"
         sh "sleep 20"
-        sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-        sh "curl -X GET 'http://localhost:8081/rest/mscovid/estadoMundial'"
-        sh "curl -X GET 'http://localhost:8081/rest/mscovid/estadoPais?pais=chile'"
+        validaStatus('http://localhost:8081/rest/mscovid/test?msg=testing')
+        validaStatus('http://localhost:8081/rest/mscovid/estadoMundial')
+        validaStatus('http://localhost:8081/rest/mscovid/estadoPais?pais=chile')
+    }
+}
+
+def validaStatus(url){
+    String status = sh(script: "curl -sLI -w '%{http_code}' $url -o /dev/null", returnStdout: true)
+    echo "status: ${status}"
+    if (status != "200")
+    {
+        error "El endpoint responde código: ${status}"
     }
 }
 
