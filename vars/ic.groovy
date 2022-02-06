@@ -7,6 +7,7 @@ def allStages(){
     stageCleanTest()
     stagePackage()
     stageSonar()
+    stageQualityGate()
     stageUploadNexus()
 }
 
@@ -35,17 +36,29 @@ def stagePackage(){
 }
 
 def stageSonar(){
+    def projectKey="${GIT_REPO_NAME}'-'${GIT_BRANCH}'-'${env.BUILD_NUMBER}"
+    def projectName="${GIT_REPO_NAME}'-'${GIT_BRANCH}'-'${env.BUILD_NUMBER}"
     stage("Paso 4: Análisis SonarQube"){
         withSonarQubeEnv('sonarqube') {
         sh "echo 'Calling sonar Service in another docker container!'"
         // Run Maven on a Unix agent to execute Sonar.
-        def projectKey="${env.GIT_BRANCH}_${env.BUILD_NUMBER}"
-        sh "echo ${projectKey}"
-        def projectName="'RAMA:['${env.GIT_BRANCH}']_EJECUCIÓN_NR:['${env.BUILD_NUMBER}']'"
-        sh "echo ${projectName}"
         sh "mvn clean verify sonar:sonar -Dsonar.projectKey='${projectKey}' -Dsonar.projectName='${projectName}'"
         }
     }
+}
+
+def stageQualityGate(){
+  stage("Paso 4 1/2: Revisar Sonar - Quality Gate"){
+    timeout(time: 1, unit: 'MINUTES') {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+                println(qg)
+                slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Revisión Sonar fallida ${qg.status}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-jenkins-slack'
+                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+            }
+        }
+       sh "echo 'Quality Gate Passed'"
+  }
 }
 
 def stageUploadNexus(){
