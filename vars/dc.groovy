@@ -39,8 +39,14 @@ def gitMergeMaster(){
     withCredentials([
         gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
     ]) {
+        checkout([
+            $class: 'GitSCM',
+            branches: scm.branches,
+            extensions: scm.extensions + [[$class: 'LocalBranch'], [$class: 'WipeWorkspace']],
+            userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/DiplomadoDevOps2021/ms-iclab.git']],
+            doGenerateSubmoduleConfigurations: false
+        ])
         sh '''
-            git remote set-url origin https://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@github.com/DiplomadoDevOps2021/ms-iclab.git
             git fetch -p
             git checkout release-v1-0-0; git pull
             git checkout main
