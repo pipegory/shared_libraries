@@ -63,7 +63,7 @@ def stageQualityGate(){
             def qg = waitForQualityGate()
             if (qg.status != 'OK') {
                 println(qg)
-                slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Revisión Sonar fallida ${qg.status}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
+                slackSend color: 'danger', message: "[${JOB_NAME}] [${BUILD_TAG}] Revisión Sonar fallida ${qg.status}", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-jenkins-slack'
                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
             }
         }
