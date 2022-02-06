@@ -36,9 +36,7 @@ def stageRunTest(){
 
 def gitMergeMaster(){
     echo "GIT BRANCH ${GIT_BRANCH}"
-    withCredentials([
-        gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
-    ]) {
+    stage('Checkout') {
         checkout([
             $class: 'GitSCM',
             branches: scm.branches,
@@ -46,13 +44,19 @@ def gitMergeMaster(){
             userRemoteConfigs: [[credentialsId: 'jenkins-git-user', url: 'https://github.com/DiplomadoDevOps2021/ms-iclab.git']],
             doGenerateSubmoduleConfigurations: false
         ])
-        sh '''
-            git fetch -p
-            git checkout release-v1-0-0; git pull
-            git checkout main
-            git merge release-v1-0-0;
-            git push origin main
-        '''
+    }
+    stage('Merge'){
+        withCredentials([
+            gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
+        ]) {
+            sh '''
+                git fetch -p
+                git checkout release-v1-0-0; git pull
+                git checkout main
+                git merge release-v1-0-0;
+                git push origin main
+            '''
+        }
     }
 }
 
