@@ -13,7 +13,8 @@ def call(){
                     rama = GIT_BRANCH
                     if (rama.contains('feature') || rama.contains('develop')) {
                         sh "echo 'rama feature IC'"
-                        ic.call()
+                        //ic.call()
+                        dc.call()
                     }
                     else {
                         if (rama.contains('release') ) {
