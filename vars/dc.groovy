@@ -40,10 +40,10 @@ def gitMergeMaster(){
     ]) {
         sh '''
             git fetch -p
-            git checkout ''release-v1-0-0''; git pull
-            git checkout ''main''
+            git switch release-v1-0-0; git pull
+            git checkout main
             git merge release-v1-0-0;
-            git push origin ''main''
+            git push origin main
         '''
     }
 }
