@@ -6,6 +6,7 @@ def allStages(){
     stageDownloadNexus()
     stageRunJar()
     stageRunTest()
+    gitMergeMaster()
 }
 
 def stageDownloadNexus(){
@@ -32,6 +33,36 @@ def stageRunTest(){
         validaStatus('http://localhost:8081/rest/mscovid/estadoPais?pais=chile')
     }
 }
+
+def gitMergeMaster(){
+    withCredentials([
+        gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
+    ]) {
+        sh '''
+            git fetch -p
+            git checkout ''release-v1-0-0''; git pull
+            git checkout ''main''
+            git merge release-v1-0-0;
+            git push origin ''main''
+        '''
+    }
+}
+
+def gitMergeDevelop(){
+    withCredentials([
+        gitUsernamePassword(credentialsId: 'jenkins-git-user', gitToolName: 'Default')
+    ]) {
+        sh '''
+            git fetch -p
+            git checkout ''release-v1-0-0''; git pull
+            git checkout ''develop''
+            git merge release-v1-0-0;
+            git push origin ''develop''
+        '''
+    }
+}
+
+
 
 def validaStatus(url){
     String status = sh(script: "curl -sLI -w '%{http_code}' $url -o /dev/null", returnStdout: true)
